@@ -4,13 +4,16 @@ from itertools import count
 import matplotlib.pylab as plt
 class objectOnTable(object):
 	_ids = count(0)
-	def __init__(self, x, y, theta = None, shape = 'circle'):
+	def __init__(self, x, y, theta = None, shape = 'circle', tag = None):
 		self.x = x
 		self.y = y
 		self.shape = shape
 		self.theta = theta
 		self.delGridX, self.delGridY = self.cellsToOccupy()
-		self.tag =  next(self._ids)
+		if tag is None:
+			self.tag =  next(self._ids)
+		else:
+			self.tag = tag
 	def cellsToOccupy(self):
 		if self.shape == 'circle':
 			delGridX = 1.5
@@ -85,13 +88,6 @@ class costMap(object):
 		plt.imshow(self.matMap, interpolation = 'none', cmap = 'gray')
 		plt.show(block=False)
 		ch = raw_input("Continue ?")
-
-def updateObjectOnTable(tableMap, obj, newX, newY, newTheta):
-	obj.updatePose(newX, newY, newTheta)
-	tableMap.updateWorldMap(obj)
-
-def planToTarget(tableMap, targetObject):
-	pass
 
 if __name__=="__main__":
 	soup = objectOnTable(30, 40)
