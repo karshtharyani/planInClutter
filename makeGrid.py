@@ -41,13 +41,23 @@ class costMap(object):
 		# table dimensions in cm 
 		tableWidth = 50
 		tableHeight = 50
-
 		matMap = numpy.zeros([tableWidth, tableHeight])
 		for i in range(len(objOnTableList)):
 			obj = objOnTableList[i]
 			x, y, delGridX, delGridY = (obj.x, obj.y, obj.delGridX, obj.delGridY)
+			x = numpy.ceil(x);
+			y = numpy.ceil(y);
 			delGridX = numpy.ceil(delGridX);
 			delGridY = numpy.ceil(delGridY);
+			
+			rCorn1 = int(x - delGridX)
+			cCorn1 = int(y - delGridY)
+			rCorn2 = int(x + delGridX)
+			cCorn2 = int(y + delGridY)
+			matMap[rCorn1:rCorn2, cCorn1:cCorn2] = matMap[rCorn1:rCorn2, cCorn1:cCorn2]- 1
+		plt.imshow(matMap, interpolation = 'none', cmap = 'gray')
+		plt.show(block=False)
+		ch = raw_input("Continue ?")
 		return matMap
 		
 	def updateWorldMap(self, obj):
@@ -66,10 +76,8 @@ def planToTarget(tableMap, targetObject):
 	pass
 
 if __name__=="__main__":
-	spam = objectOnTable(0, 3, -numpy.pi/4, shape = 'rectangle')
-	soup = objectOnTable(1, 4)
-	glass = objectOnTable(3, 5)
+	soup = objectOnTable(30, 40)
+	spam = objectOnTable(10, 20, numpy.pi/2, shape = 'rectangle')
+	glass = objectOnTable(20, 30)
 	tableMap = costMap([soup, spam, glass])
-	print tableMap.worldMap
-	tableMap.visualize()
 
