@@ -29,6 +29,7 @@ class objectOnTable(object):
 class costMap(object):
 	def __init__(self, objOnTableList):
 		self.worldMap = self.createWorldMap(objOnTableList)
+		self.matMap = self.createMatMap(objOnTableList)
 
 	def createWorldMap(self, objOnTableList):
 		worldMap = {}
@@ -36,6 +37,19 @@ class costMap(object):
 			obj = objOnTableList[i]
 			worldMap[obj.tag] = (obj.x, obj.y, obj.delGridX, obj.delGridY)
 		return worldMap
+	def createMatMap(self, objOnTableList):
+		# table dimensions in cm 
+		tableWidth = 50
+		tableHeight = 50
+
+		matMap = numpy.zeros([tableWidth, tableHeight])
+		for i in range(len(objOnTableList)):
+			obj = objOnTableList[i]
+			x, y, delGridX, delGridY = (obj.x, obj.y, obj.delGridX, obj.delGridY)
+			delGridX = numpy.ceil(delGridX);
+			delGridY = numpy.ceil(delGridY);
+		return matMap
+		
 	def updateWorldMap(self, obj):
 		self.worldMap[obj.tag] = (obj.x, obj.y, obj.delGridX, obj.delGridY)
 	def visualize(self):
@@ -46,6 +60,7 @@ class costMap(object):
 def updateObjectOnTable(tableMap, obj, newX, newY, newTheta):
 	obj.updatePose(newX, newY, newTheta)
 	tableMap.updateWorldMap(obj)
+	tableMap.updateMatMap(obj)
 
 def planToTarget(tableMap, targetObject):
 	pass
