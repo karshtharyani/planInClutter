@@ -55,9 +55,9 @@ class costMap(object):
 			
 			rCorn1 = int(x - delGridX)
 			cCorn1 = int(y - delGridY)
-			rCorn2 = int(x + delGridX)
-			cCorn2 = int(y + delGridY)
-			matMap[rCorn1:rCorn2, cCorn1:cCorn2] = matMap[rCorn1:rCorn2, cCorn1:cCorn2]- 1
+			rCorn2 = int(x + delGridX) + 1
+			cCorn2 = int(y + delGridY) + 1
+			matMap[rCorn1:rCorn2, cCorn1:cCorn2] = matMap[rCorn1:rCorn2, cCorn1:cCorn2]- i - 1
 		return matMap
 		
 	def updateWorldMap(self, obj):
