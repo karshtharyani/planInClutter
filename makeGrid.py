@@ -89,6 +89,9 @@ class costMap(object):
 		plt.show(block=False)
 		ch = raw_input("Continue ?")
 
+def updateObjectOnTable(tableMap, obj, newX, newY, newTheta):
+	obj.updatePose(newX, newY, newTheta)
+	tableMap.updateWorldMap(obj)
 if __name__=="__main__":
 	soup = objectOnTable(30, 40)
 	soup1 = objectOnTable(10, 20)
