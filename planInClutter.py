@@ -6,7 +6,10 @@ import math
 import numpy as np
 
 def planInClutter(tableMap, targetObject):
-	pass
+	tableMap.visualize()
+	obstacles = obstaclesInWay(targetObject.tag, tableMap) 
+	print "these tags are obstacles :", obstacles
+	tableMap.visualize()
 	
 def updateObjectOnTable(tableMap, obj, newX, newY, newTheta):
 	obj.updatePose(newX, newY, newTheta)
@@ -49,7 +52,6 @@ def obstaclesInWay(tagTarget, tableMap, thetaTolerance = 10):
 	thetaLower = thetaTarget - thetaTolerance	
 	obstacles = []
 	matrixWorld = tableMap.matMap
-	print "rTarget", rTarget
 	fillGridRegion(matrixWorld, rTarget, thetaUpper, thetaLower)
 
 	for tag in tableMap.worldMap.keys():
@@ -68,8 +70,5 @@ if __name__ == "__main__":
 	spam = objectOnTable(20, 40, numpy.pi/2, shape = 'rectangle')
 	glass = objectOnTable(35, 25)
 	tableMap = costMap([soup, soup1, soup2, spam, glass])
-	tableMap.visualize()
-	obstacles = obstaclesInWay(2, tableMap) 
-	print "these tags are obstacles :", obstacles
-	tableMap.visualize()
+	planInClutter(tableMap, soup2)
 			
