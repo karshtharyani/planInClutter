@@ -71,8 +71,8 @@ def fillGridRegion(matMap, rTarget, thetaUpper, thetaLower):
 			j1 = int(math.floor(math.tan(theta) * i))
 			if i**2 + j**2 <= rTarget**2:
 				try:
-					matMap[j, i] = -1
-					matMap[j1, i] = -1
+					matMap[j, i] = -10
+					matMap[j1, i] = -10
 				except:
 					print "index not possible"
 
