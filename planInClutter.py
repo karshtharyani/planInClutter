@@ -5,6 +5,7 @@ import matplotlib.pylab as plt
 import math
 import numpy as np
 from collections import namedtuple
+import IPython
 
 def planInClutter(tableMap, targetObject):
 	tableMap.visualize()
@@ -13,7 +14,8 @@ def planInClutter(tableMap, targetObject):
 	tableMap.visualize()
 	for tag in obstacles:
 		newX, newY, newTheta = findOpenSpot(tag, tableMap)
-	tableMap.visualize()
+		updateObjectOnTable(tableMap, tableMap.worldMap[tag], newX, newY, newTheta)
+		tableMap.visualize()
 	
 def updateObjectOnTable(tableMap, obj, newX, newY, newTheta):
 	obj.updatePose(newX, newY, newTheta)
@@ -36,15 +38,14 @@ def findOpenSpot(tag, tableMap):
 	filterSize = namedtuple('filterSize', ['r', 'c'], verbose = False)
 	filtersz = filterSize(int(2 * obj.delGridX), int(2 * obj.delGridY))
 	newX, newY = convolve(tableMap.matMap, filtersz)
-	return 0, 0, 0
+	return newX, newY, 0
 	
 def convolve(matMap, filtersz):
-	filter = numpy.ones(filtersz)
 	outOfBounds = 0
-	print filtersz[0], filtersz[1]
-	print matMap[48:100, 48:100]
-	for i in range(0, numpy.size(matMap, 0)):
-		for j in range(0, numpy.size(matMap, 1)):
+	newX = 0
+	newY = 0
+	for j in range(15, numpy.size(matMap, 0)):
+		for i in range(15, numpy.size(matMap, 1)):
 			rCorn1 = i - int(filtersz[0] / 2)
 			rCorn2 = i + int(filtersz[0] / 2) + 1
 			cCorn1 = j - int(filtersz[1] / 2)
@@ -53,11 +54,13 @@ def convolve(matMap, filtersz):
 			#print (rCorn2, cCorn2)
 			roi = matMap[rCorn1:rCorn2, cCorn1:cCorn2];
 			if numpy.size(roi, 0) != 3 or numpy.size(roi, 1) != 3:
-				print numpy.size(roi, 0)
-				print numpy.size(roi, 1)
 				outOfBounds = outOfBounds + 1
-	print outOfBounds
-	return 0, 0
+			else:
+				if roi.any >= 0:
+					newX = i
+					newY = j
+					return newX, newY
+
 def fillGridRegion(matMap, rTarget, thetaUpper, thetaLower):
 	thetaUpper = int(math.floor(thetaUpper))
 	thetaLower = int(math.floor(thetaLower))
@@ -68,12 +71,12 @@ def fillGridRegion(matMap, rTarget, thetaUpper, thetaLower):
 			j1 = int(math.floor(math.tan(theta) * i))
 			if i**2 + j**2 <= rTarget**2:
 				try:
-					matMap[j, i] = -2
-					matMap[j1, i] = -2
+					matMap[j, i] = -1
+					matMap[j1, i] = -1
 				except:
 					print "index not possible"
 
-def obstaclesInWay(tagTarget, tableMap, thetaTolerance = 10):
+def obstaclesInWay(tagTarget, tableMap, thetaTolerance = 15):
 	targetObject = tableMap.worldMap[tagTarget]
 	rTarget, thetaTarget = convertObjectToPolar(targetObject)
 	thetaUpper = thetaTarget + thetaTolerance	
@@ -93,12 +96,10 @@ def obstaclesInWay(tagTarget, tableMap, thetaTolerance = 10):
 
 if __name__ == "__main__":
 	soup = objectOnTable(10, 10)
-	soup1 = objectOnTable(15, 20)
-	soup2 = objectOnTable(30, 35)
+	soup1 = objectOnTable(20, 20)
+	soup2 = objectOnTable(30, 30)
 	spam = objectOnTable(20, 40, numpy.pi/2, shape = 'rectangle')
 	glass = objectOnTable(35, 25)
 	tableMap = costMap([soup, soup1, soup2, spam, glass])
-	planInClutter(tableMap, soup2)
-	a = numpy.ones((15, 15))
-	convolve(a, (3, 3))
+	planInClutter(tableMap, glass)
 			
