@@ -32,16 +32,31 @@ def isObstacle(rTarget, thetaTarget, rObj, thetaObj, thetaTolerance):
 	if rObj < rTarget and thetaObj > thetaLower and thetaObj < thetaUpper:
 		return True
 def findOpenSpot(tag, tableMap):
-	for tag in tableMap.worldMap.keys():
-		obj = tableMap.worldMap[tag]
-		filterSize = namedtuple('filterSize', ['r', 'y'], verbose = False)
-		filtersz = filterSize(int(obj.delGridX), int(obj.delGridY))
-		filter = numpy.ones(filtersz)
-		newX, newY = convolve(tableMap.matMap, filter)
+	obj = tableMap.worldMap[tag]
+	filterSize = namedtuple('filterSize', ['r', 'c'], verbose = False)
+	filtersz = filterSize(int(2 * obj.delGridX), int(2 * obj.delGridY))
+	newX, newY = convolve(tableMap.matMap, filtersz)
 	return 0, 0, 0
 	
-def convolve(matMap, filter):
-	
+def convolve(matMap, filtersz):
+	filter = numpy.ones(filtersz)
+	outOfBounds = 0
+	print filtersz[0], filtersz[1]
+	print matMap[48:100, 48:100]
+	for i in range(0, numpy.size(matMap, 0)):
+		for j in range(0, numpy.size(matMap, 1)):
+			rCorn1 = i - int(filtersz[0] / 2)
+			rCorn2 = i + int(filtersz[0] / 2) + 1
+			cCorn1 = j - int(filtersz[1] / 2)
+			cCorn2 = j + int(filtersz[1] / 2) + 1
+			#print (rCorn1, cCorn1)
+			#print (rCorn2, cCorn2)
+			roi = matMap[rCorn1:rCorn2, cCorn1:cCorn2];
+			if numpy.size(roi, 0) != 3 or numpy.size(roi, 1) != 3:
+				print numpy.size(roi, 0)
+				print numpy.size(roi, 1)
+				outOfBounds = outOfBounds + 1
+	print outOfBounds
 	return 0, 0
 def fillGridRegion(matMap, rTarget, thetaUpper, thetaLower):
 	thetaUpper = int(math.floor(thetaUpper))
@@ -84,4 +99,6 @@ if __name__ == "__main__":
 	glass = objectOnTable(35, 25)
 	tableMap = costMap([soup, soup1, soup2, spam, glass])
 	planInClutter(tableMap, soup2)
+	a = numpy.ones((15, 15))
+	convolve(a, (3, 3))
 			
