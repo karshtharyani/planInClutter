@@ -38,7 +38,7 @@ class costMap(object):
 		worldMap = {}
 		for i in range(len(objOnTableList)):
 			obj = objOnTableList[i]
-			worldMap[obj.tag] = (obj.x, obj.y, obj.delGridX, obj.delGridY)
+			worldMap[obj.tag] = obj
 		return worldMap
 	def createMatMap(self, objOnTableList):
 		# table dimensions in cm 
