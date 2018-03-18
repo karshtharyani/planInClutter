@@ -66,7 +66,7 @@ class costMap(object):
 	def updateMatMap(self, worldMap):
 		tableWidth = 50
 		tableHeight = 50
-		matMap = numpy.zeros([tableWidth, tableHeight])
+		matMap = self.matMap
 		for i in worldMap.keys():
 			obj = worldMap[i]
 			x, y, delGridX, delGridY =  (obj.x, obj.y, obj.delGridX, obj.delGridY)
