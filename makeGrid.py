@@ -3,7 +3,7 @@ import numpy
 from itertools import count
 import matplotlib.pylab as plt
 class objectOnTable(object):
-	_ids = count(0)
+	_ids = count(1)
 	def __init__(self, x, y, theta = None, shape = 'circle', tag = None):
 		self.x = x
 		self.y = y
@@ -16,10 +16,10 @@ class objectOnTable(object):
 			self.tag = tag
 	def cellsToOccupy(self):
 		if self.shape == 'circle':
-			delGridX = 1.5
-			delGridY = 1.5
+			delGridX = 2
+			delGridY = 2
 		elif self.shape == 'rectangle':
-			length = 5
+			length = 4
 			delGridX = length * numpy.cos(self.theta) / 2
 			delGridY = length * numpy.sin(self.theta) / 2
 		return delGridX, delGridY
@@ -57,13 +57,13 @@ class costMap(object):
 			cCorn1 = int(y - delGridY)
 			rCorn2 = int(x + delGridX) + 1
 			cCorn2 = int(y + delGridY) + 1
-			matMap[rCorn1:rCorn2, cCorn1:cCorn2] = matMap[rCorn1:rCorn2, cCorn1:cCorn2]- i - 1
+			matMap[rCorn1:rCorn2, cCorn1:cCorn2] = -i
 		return matMap
 		
 	def updateWorldMap(self, obj):
 		self.worldMap[obj.tag] = obj
 		self.matMap = self.updateMatMap(self.worldMap)
-	def updateMatMap(self, worldMap):
+	def updateMatMap(self, worldMap, tag):
 		tableWidth = 50
 		tableHeight = 50
 		matMap = self.matMap
@@ -79,7 +79,7 @@ class costMap(object):
 			cCorn1 = int(y - delGridY)
 			rCorn2 = int(x + delGridX) + 1
 			cCorn2 = int(y + delGridY) + 1
-			matMap[rCorn1:rCorn2, cCorn1:cCorn2] = matMap[rCorn1:rCorn2, cCorn1:cCorn2]- i - 1
+			matMap[rCorn1:rCorn2, cCorn1:cCorn2] = -i
 		return matMap
 		
 	def visualize(self):
@@ -93,10 +93,10 @@ def updateObjectOnTable(tableMap, obj, newX, newY, newTheta):
 	obj.updatePose(newX, newY, newTheta)
 	tableMap.updateWorldMap(obj)
 if __name__=="__main__":
-	soup = objectOnTable(30, 40)
-	soup1 = objectOnTable(10, 20)
+	soup = objectOnTable(10, 30)
+	soup1 = objectOnTable(15, 25)
 	soup2 = objectOnTable(30, 25)
-	spam = objectOnTable(40, 20, numpy.pi/2, shape = 'rectangle')
+	spam = objectOnTable(40, 10, numpy.pi/2, shape = 'rectangle')
 	glass = objectOnTable(20, 30)
 	tableMap = costMap([soup, soup1, soup2, spam, glass])
 	tableMap.visualize()
