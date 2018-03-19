@@ -60,13 +60,13 @@ def convolve(matMap, filtersz, initialX):
 			rCorn2 = i + int(filtersz[0] / 2) + 1
 			cCorn1 = j - int(filtersz[1] / 2)
 			cCorn2 = j + int(filtersz[1] / 2) + 1
-			print "Corner 1: "
-			print (rCorn1, cCorn1)
-			print "Corner 2: "
-			print (rCorn2, cCorn2)
+			#print "Corner 1: "
+			#print (rCorn1, cCorn1)
+			#print "Corner 2: "
+			#print (rCorn2, cCorn2)
 			roi = matMap[rCorn1:rCorn2, cCorn1:cCorn2];
-			print roi
-			print 
+			#print roi
+			#print 
 			roiTruth = roi >= 0
 			if roiTruth.all() == True:
 				newX = i
