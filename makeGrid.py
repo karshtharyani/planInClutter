@@ -73,15 +73,15 @@ class costMap(object):
 		cCorn1 = int(y - delGridY)
 		rCorn2 = int(x + delGridX) + 1
 		cCorn2 = int(y + delGridY) + 1
-		print -obj.tag-1
+		#print -obj.tag-1
 		matMapTruth = matMap[rCorn1:rCorn2, cCorn1:cCorn2] > -10
 		matMapROI = matMap[rCorn1:rCorn2, cCorn1:cCorn2] 
 		for i in range(numpy.size(matMapROI, 0)):
 			for j in range(numpy.size(matMapROI, 1)):
 				if(matMapTruth[i][j]):
 					matMapROI[i][j] = 0
-		print "rCorn1", "cCorn1"
-		print rCorn1, cCorn1
+		#print "rCorn1", "cCorn1"
+		#print rCorn1, cCorn1
 
 		x, y, delGridX, delGridY =  (obj.x, obj.y, obj.delGridX, obj.delGridY)
 		x = numpy.ceil(x);
@@ -93,8 +93,8 @@ class costMap(object):
 		cCorn1 = int(y - delGridY)
 		rCorn2 = int(x + delGridX) + 1
 		cCorn2 = int(y + delGridY) + 1
-		print "rCorn1", "cCorn1"
-		print rCorn1, cCorn1
+		#print "rCorn1", "cCorn1"
+		#print rCorn1, cCorn1
 		matMap[rCorn1:rCorn2, cCorn1:cCorn2] = -obj.tag - 1
 		return matMap
 		
