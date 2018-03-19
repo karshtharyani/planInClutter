@@ -60,32 +60,47 @@ class costMap(object):
 			matMap[rCorn1:rCorn2, cCorn1:cCorn2] = -i - 1
 		return matMap
 		
-	def updateWorldMap(self, obj):
+	def updateWorldMap(self, obj, oldX, oldY, oldTheta):
 		self.worldMap[obj.tag] = obj
-		self.matMap = self.updateMatMap(self.worldMap)
-	def updateMatMap(self, worldMap, tag = None):
-		tableWidth = 50
-		tableHeight = 50
+		self.matMap = self.updateMatMap(self.worldMap, obj, oldX, oldY, oldTheta)
+	def updateMatMap(self, worldMap, obj, oldX, oldY, oldTheta):
 		matMap = self.matMap
-		for i in worldMap.keys():
-			obj = worldMap[i]
-			x, y, delGridX, delGridY =  (obj.x, obj.y, obj.delGridX, obj.delGridY)
-			x = numpy.ceil(x);
-			y = numpy.ceil(y);
-			delGridX = numpy.ceil(delGridX);
-			delGridY = numpy.ceil(delGridY);
-			
-			rCorn1 = int(x - delGridX)
-			cCorn1 = int(y - delGridY)
-			rCorn2 = int(x + delGridX) + 1
-			cCorn2 = int(y + delGridY) + 1
-			matMap[rCorn1:rCorn2, cCorn1:cCorn2] = -i - 1
+		x, y, delGridX, delGridY =  (oldX, oldY, obj.delGridX, obj.delGridY)
+		delGridX = numpy.ceil(delGridX);
+		delGridY = numpy.ceil(delGridY);
+		
+		rCorn1 = int(x - delGridX)
+		cCorn1 = int(y - delGridY)
+		rCorn2 = int(x + delGridX) + 1
+		cCorn2 = int(y + delGridY) + 1
+		print -obj.tag-1
+		matMapTruth = matMap[rCorn1:rCorn2, cCorn1:cCorn2] > -10
+		matMapROI = matMap[rCorn1:rCorn2, cCorn1:cCorn2] 
+		for i in range(numpy.size(matMapROI, 0)):
+			for j in range(numpy.size(matMapROI, 1)):
+				if(matMapTruth[i][j]):
+					matMapROI[i][j] = 0
+		print "rCorn1", "cCorn1"
+		print rCorn1, cCorn1
+
+		x, y, delGridX, delGridY =  (obj.x, obj.y, obj.delGridX, obj.delGridY)
+		x = numpy.ceil(x);
+		y = numpy.ceil(y);
+		delGridX = numpy.ceil(delGridX);
+		delGridY = numpy.ceil(delGridY);
+		
+		rCorn1 = int(x - delGridX)
+		cCorn1 = int(y - delGridY)
+		rCorn2 = int(x + delGridX) + 1
+		cCorn2 = int(y + delGridY) + 1
+		print "rCorn1", "cCorn1"
+		print rCorn1, cCorn1
+		matMap[rCorn1:rCorn2, cCorn1:cCorn2] = -obj.tag - 1
 		return matMap
 		
 	def visualize(self):
-		plt.figure()
-		plt.grid()
-		plt.imshow(self.matMap, interpolation = 'none', cmap = 'gray')
+		plt.grid(True)
+		plt.imshow(self.matMap.astype(int), interpolation = 'none', cmap = 'gray')
 		plt.show(block=False)
 		ch = raw_input("Continue ?")
 
