@@ -26,8 +26,9 @@ def planInClutter(tableMap, targetObject):
 		tableMap.visualize()
 	
 def updateObjectOnTable(tableMap, obj, newX, newY, newTheta):
+	oldX, oldY, oldTheta = (obj.x, obj.y, obj.theta)
 	obj.updatePose(newX, newY, newTheta)
-	tableMap.updateWorldMap(obj)
+	tableMap.updateWorldMap(obj, oldX, oldY, oldTheta)
 
 def convertObjectToPolar(tableObject):
 	xTarget = tableObject.x
@@ -82,8 +83,8 @@ def fillGridRegion(matMap, rTarget, thetaUpper, thetaLower):
 			j1 = int(math.floor(math.tan(theta) * i))
 			if i**2 + j**2 <= rTarget**2:
 				try:
-					matMap[j, i] = -0.5
-					matMap[j1, i] = -0.5
+					matMap[j, i] = -10
+					matMap[j1, i] = -10
 				except:
 					print "index not possible"
 
