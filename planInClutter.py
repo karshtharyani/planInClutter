@@ -12,10 +12,14 @@ def planInClutter(tableMap, targetObject):
 	obstacles = obstaclesInWay(targetObject.tag, tableMap) 
 	print "these tags are obstacles :", obstacles
 	tableMap.visualize()
+	obstacleTags = {}
 	for tag in obstacles:
 		objObstacle = tableMap.worldMap[tag]
 		rObjObs, thetaObjObs = convertObjectToPolar(objObstacle)
-	for tag in obstacles:
+		obstacleTags[rObjObs] = tag
+		
+	for rNearest in sorted(obstacleTags.keys()):
+		tag = obstacleTags[rNearest]
 		newX, newY, newTheta = findOpenSpot(tag, tableMap)
 		print newX, newY, newTheta
 		updateObjectOnTable(tableMap, tableMap.worldMap[tag], newX, newY, newTheta)
@@ -50,7 +54,7 @@ def convolve(matMap, filtersz, initialX):
 	newX = 0
 	newY = 0
 	for i in range(initialX, numpy.size(matMap, 0)):
-		for j in range(5, numpy.size(matMap, 1)):
+		for j in range(2, numpy.size(matMap, 1)):
 			rCorn1 = i - int(filtersz[0] / 2)
 			rCorn2 = i + int(filtersz[0] / 2) + 1
 			cCorn1 = j - int(filtersz[1] / 2)
@@ -83,7 +87,7 @@ def fillGridRegion(matMap, rTarget, thetaUpper, thetaLower):
 				except:
 					print "index not possible"
 
-def obstaclesInWay(tagTarget, tableMap, thetaTolerance = 10):
+def obstaclesInWay(tagTarget, tableMap, thetaTolerance = 15):
 	targetObject = tableMap.worldMap[tagTarget]
 	rTarget, thetaTarget = convertObjectToPolar(targetObject)
 	thetaUpper = thetaTarget + thetaTolerance	
@@ -104,9 +108,9 @@ def obstaclesInWay(tagTarget, tableMap, thetaTolerance = 10):
 if __name__ == "__main__":
 	soup = objectOnTable(20, 20)
 	soup1 = objectOnTable(10, 10)
-	soup2 = objectOnTable(15, 40)
+	soup2 = objectOnTable(15, 10)
 	spam = objectOnTable(20, 10, numpy.pi/2, shape = 'rectangle')
 	glass = objectOnTable(30, 20)
 	tableMap = costMap([soup, soup1, soup2, spam, glass])
-	planInClutter(tableMap, soup)
+	planInClutter(tableMap, glass)
 			
