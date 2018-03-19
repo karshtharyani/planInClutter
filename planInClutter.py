@@ -13,6 +13,9 @@ def planInClutter(tableMap, targetObject):
 	print "these tags are obstacles :", obstacles
 	tableMap.visualize()
 	for tag in obstacles:
+		objObstacle = tableMap.worldMap[tag]
+		rObjObs, thetaObjObs = convertObjectToPolar(objObstacle)
+	for tag in obstacles:
 		newX, newY, newTheta = findOpenSpot(tag, tableMap)
 		print newX, newY, newTheta
 		updateObjectOnTable(tableMap, tableMap.worldMap[tag], newX, newY, newTheta)
@@ -37,10 +40,10 @@ def isObstacle(rTarget, thetaTarget, rObj, thetaObj, thetaTolerance):
 def findOpenSpot(tag, tableMap):
 	obj = tableMap.worldMap[tag]
 	filterSize = namedtuple('filterSize', ['r', 'c'], verbose = False)
-	filtersz = filterSize(int(2 * obj.delGridX), int(2 * obj.delGridY))
+	filtersz = filterSize(int(2 * numpy.ceil(obj.delGridX)), int(2 * numpy.ceil(obj.delGridY)))
 	initialX = int(numpy.ceil(obj.x))
 	newX, newY = convolve(tableMap.matMap, filtersz, initialX)
-	return newX, newY, 0
+	return newX, newY, numpy.pi/2
 	
 def convolve(matMap, filtersz, initialX):
 	outOfBounds = 0
@@ -80,7 +83,7 @@ def fillGridRegion(matMap, rTarget, thetaUpper, thetaLower):
 				except:
 					print "index not possible"
 
-def obstaclesInWay(tagTarget, tableMap, thetaTolerance = 15):
+def obstaclesInWay(tagTarget, tableMap, thetaTolerance = 10):
 	targetObject = tableMap.worldMap[tagTarget]
 	rTarget, thetaTarget = convertObjectToPolar(targetObject)
 	thetaUpper = thetaTarget + thetaTolerance	
@@ -105,5 +108,5 @@ if __name__ == "__main__":
 	spam = objectOnTable(20, 10, numpy.pi/2, shape = 'rectangle')
 	glass = objectOnTable(30, 20)
 	tableMap = costMap([soup, soup1, soup2, spam, glass])
-	planInClutter(tableMap, glass)
+	planInClutter(tableMap, soup)
 			
