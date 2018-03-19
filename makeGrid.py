@@ -57,13 +57,13 @@ class costMap(object):
 			cCorn1 = int(y - delGridY)
 			rCorn2 = int(x + delGridX) + 1
 			cCorn2 = int(y + delGridY) + 1
-			matMap[rCorn1:rCorn2, cCorn1:cCorn2] = -i
+			matMap[rCorn1:rCorn2, cCorn1:cCorn2] = -i - 1
 		return matMap
 		
 	def updateWorldMap(self, obj):
 		self.worldMap[obj.tag] = obj
 		self.matMap = self.updateMatMap(self.worldMap)
-	def updateMatMap(self, worldMap, tag):
+	def updateMatMap(self, worldMap, tag = None):
 		tableWidth = 50
 		tableHeight = 50
 		matMap = self.matMap
@@ -79,7 +79,7 @@ class costMap(object):
 			cCorn1 = int(y - delGridY)
 			rCorn2 = int(x + delGridX) + 1
 			cCorn2 = int(y + delGridY) + 1
-			matMap[rCorn1:rCorn2, cCorn1:cCorn2] = -i
+			matMap[rCorn1:rCorn2, cCorn1:cCorn2] = -i - 1
 		return matMap
 		
 	def visualize(self):
