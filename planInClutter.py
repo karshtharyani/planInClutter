@@ -21,7 +21,8 @@ def planInClutter(tableMap, targetObject):
 	for rNearest in sorted(obstacleTags.keys()):
 		tag = obstacleTags[rNearest]
 		newX, newY, newTheta = findOpenSpot(tag, tableMap)
-		print newX, newY, newTheta
+		print "Move ", tag, " to "
+		print "new X: ", newX, "new Y:", newY, "new Theta: ", newTheta
 		updateObjectOnTable(tableMap, tableMap.worldMap[tag], newX, newY, newTheta)
 		tableMap.visualize()
 	
@@ -107,11 +108,11 @@ def obstaclesInWay(tagTarget, tableMap, thetaTolerance = 15):
 	return obstacles
 
 if __name__ == "__main__":
-	soup = objectOnTable(20, 20)
+	soup = objectOnTable(15, 20)
 	soup1 = objectOnTable(10, 10)
-	soup2 = objectOnTable(15, 10)
+	soup2 = objectOnTable(30, 10)
 	spam = objectOnTable(20, 10, numpy.pi/2, shape = 'rectangle')
-	glass = objectOnTable(30, 20)
+	glass = objectOnTable(25, 20)
 	tableMap = costMap([soup, soup1, soup2, spam, glass])
 	planInClutter(tableMap, glass)
 			
