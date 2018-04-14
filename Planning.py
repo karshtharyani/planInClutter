@@ -25,7 +25,7 @@ class Planning(object):
                 pdb.set_trace()
                 self.plan = self.planInClutter(self.tableMap, self.targetObject)
                 ch = raw_input("Planning Complete, continue?");
-                return(self.executePlan())
+                self.executePlan()
 
         def clutterMap(self):
                 kinbodies = self.env.GetBodies()
@@ -125,7 +125,6 @@ class Planning(object):
                 self.robot.arm.hand.CloseHand(1.2)
                 rospy.sleep(3)
                 self.robot.Grab(targetObject, grablink = grab_link, linkstoignore = finger_link_inds)
-                self.goHome()
                 #self.env.RemoveKinBody(targetObject)
                 #self.robot.arm.hand.CloseHand(0)
 
