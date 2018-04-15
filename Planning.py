@@ -63,6 +63,7 @@ class Planning(object):
                                 self.reachForObject(targetObject)
                                 self.graspObject(targetObject)
                                 self.goHome()
+                                self.robot.arm.hand.CloseHand(0)
                 return True
 
         def reachForObject(self, targetObject):
