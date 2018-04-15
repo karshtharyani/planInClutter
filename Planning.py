@@ -73,7 +73,7 @@ class Planning(object):
                 Bw = np.zeros((6,2))
                 if('tomato_soup_can' in targetObject.GetName() or True):
                     print "I got tomato_soup_can"
-                    Tw_e =  np.array([[ 0., 0., 1., -0.035], # away from can, radially
+                    Tw_e =  np.array([[ 0., 0., 1., -0.025], # away from can, radially
                                    [1., 0., 0., 0],
                                    [0., 1., 0., 0.01], # height from can
                                    [0., 0., 0., 1.]])
@@ -135,7 +135,7 @@ class Planning(object):
                                  [0, 1, 0, targetY],
                                  [0, 0, 1, 0.73],
                                  [0, 0, 0, 1]])
-                Tw_e =  np.array([[ 0., 0., 1., -0.035], # away from can, radially
+                Tw_e =  np.array([[ 0., 0., 1., -0.025], # away from can, radially
                            [1., 0., 0., 0],
                            [0., 1., 0., 0.02], # height from can
                            [0., 0., 0., 1.]])
