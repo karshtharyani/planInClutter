@@ -105,7 +105,7 @@ class Planning(object):
                         None
                     try:
                         planner.setupEnv(self.env.CloneSelf(0))
-                        plan = planner.OptimizeTrajectory(robot, plan)
+                        plan = planner.OptimizeTrajectory(self.robot, plan)
                     except:
                         None
                 print "Time to Plan to Reach: ", time.time() - timeStart
@@ -133,7 +133,7 @@ class Planning(object):
                 timeStart = time.time()
                 T0_w = np.array([[1, 0, 0, targetX + 0.03], 
                                  [0, 1, 0, targetY],
-                                 [0, 0, 1, 0.78],
+                                 [0, 0, 1, 0.73],
                                  [0, 0, 0, 1]])
                 Tw_e =  np.array([[ 0., 0., 1., -0.035], # away from can, radially
                            [1., 0., 0., 0],
@@ -168,7 +168,7 @@ class Planning(object):
                         None
                     try:
                         planner.setupEnv(self.env.CloneSelf(0))
-                        plan = planner.OptimizeTrajectory(robot, plan)
+                        plan = planner.OptimizeTrajectory(self.robot, plan)
                     except:
                         None
                 print "Time to Plan to Reach: ", time.time() - timeStart
@@ -176,9 +176,8 @@ class Planning(object):
                 if(ch == 'y' or ch == 'Y'):
                     self.robot.ExecutePath(plan)
                 self.robot.ReleaseAllGrabbed()
-                self.robot.arm.hand.CloseHand(0)
+                self.robot.arm.hand.CloseHand(0.3)
                 rospy.sleep(3)
-                self.goHome()
 
         def goHome(self):
                 self.robot.arm.PlanToNamedConfiguration('home', execute = True)
