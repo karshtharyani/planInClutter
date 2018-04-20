@@ -22,7 +22,7 @@ class Planning(object):
                 self.tag = tag
                 self.tableMap, self.targetObject, self.bodyOfConcern = self.clutterMap()
                 self.planInClutter = pIC.planInClutter
-                pdb.set_trace()
+                # pdb.set_trace()
                 self.plan = self.planInClutter(self.tableMap, self.targetObject)
                 ch = raw_input("Planning Complete, continue?");
                 self.executePlan()
@@ -45,12 +45,12 @@ class Planning(object):
                         if self.tag == tag:
                                 targetObject = tabObj
                 return mG.costMap(tableObjects), targetObject, bodyOfConcern
-        
+
         def executePlan(self):
                 if self.plan is not None:
                         for planStep in self.plan:
                                 tag, newX, newY = planStep
-                                pdb.set_trace()
+                                # pdb.set_trace()
                                 print tag
                                 for reachObject in self.bodyOfConcern:
                                         if int(reachObject.GetName()[-2:]) == tag:
@@ -67,7 +67,7 @@ class Planning(object):
                 return True
 
         def reachForObject(self, targetObject):
-                IPython.embed()
+                #IPython.embed()
                 timeStart = time.time()
                 kinbodyTrans = targetObject.GetTransform()
                 T0_w = kinbodyTrans
@@ -113,7 +113,7 @@ class Planning(object):
                 ch = raw_input("Planning Complete. Execute path? (y/n)")
                 if(ch == 'y' or ch == 'Y'):
                     self.robot.ExecutePath(plan)
-		
+
 
         def graspObject(self, targetObject):
                 finger_link_inds = []
@@ -130,9 +130,9 @@ class Planning(object):
                 #self.robot.arm.hand.CloseHand(0)
 
         def placeObject(self, targetObject, targetX = 0, targetY = 0):
-                IPython.embed()
+                #IPython.embed()
                 timeStart = time.time()
-                T0_w = np.array([[1, 0, 0, targetX + 0.03], 
+                T0_w = np.array([[1, 0, 0, targetX + 0.03],
                                  [0, 1, 0, targetY],
                                  [0, 0, 1, 0.73],
                                  [0, 0, 0, 1]])
@@ -183,7 +183,7 @@ class Planning(object):
         def goHome(self):
                 self.robot.arm.PlanToNamedConfiguration('home', execute = True)
         def goToUser(self):
-                user_config = self.manip_config['user_home'] 
+                user_config = self.manip_config['user_home']
 
 def planning_env(env, robot):
         manip_config = rospy.get_param("manipulator_config")
