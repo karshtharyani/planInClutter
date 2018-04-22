@@ -33,7 +33,7 @@ class Planning(object):
                 for kinbody in kinbodies:
                         if "tomato_soup" in kinbody.GetName()\
                                 or "fuze" in kinbody.GetName()\
-                                or "spam" in kinbody.GetName():
+                                or "potted" in kinbody.GetName():
                                 bodyOfConcern.append(kinbody)
                 tableObjects = []
                 targetObject = None
@@ -84,12 +84,21 @@ class Planning(object):
                 kinbodyTrans = targetObject.GetTransform()
                 T0_w = kinbodyTrans
                 Bw = np.zeros((6,2))
-                if('tomato_soup_can' in targetObject.GetName() or True):
+                if('tomato_soup_can' in targetObject.GetName() or \
+			'fuze_bottle' in targetObject.GetName()):
                     print "I got tomato_soup_can"
                     Tw_e =  np.array([[ 0., 0., 1., -0.025], # away from can, radially
                                    [1., 0., 0., 0],
                                    [0., 1., 0., 0.05], # height from can
                                    [0., 0., 0., 1.]])
+                elif 'potted_meat_can' in targetObject.GetName():
+                    Tw_e =  np.array([[ 0., 0., 1., 0],
+                                  [1., 0., 0., 0.],
+                                  [0., 1., 0., 0.03],
+                                  [0., 0., 0., 1.]])
+                    rot90 = np.array([[1.,0.,0.,0.],[0.,0.,-1.,0.],[0.,1.,0.,0.],[0.,0.,0.,1.]])
+		    Tw_e = np.dot(Tw_e, rot90)
+                    
                     Bw[2,:] = [0.0, 0.015]
                     Bw[5,:] = [-np.pi, np.pi]
                 manip_idx = self.robot.GetActiveManipulatorIndex()
@@ -208,7 +217,7 @@ class Planning(object):
 
 def planning_env(env, robot):
         manip_config = rospy.get_param("manipulator_config")
-        Objects = manip_config['testObjects']
+        Objects = manip_config['tags']
         ObjectTypes = manip_config['testObjectTypes']
         tags = manip_config['tags']
 
