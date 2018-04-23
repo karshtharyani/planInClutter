@@ -208,6 +208,7 @@ class Planning(object):
                 self.robot.ReleaseAllGrabbed()
                 self.robot.arm.hand.CloseHand(0.25)
                 rospy.sleep(3)
+                self.goHome()
                 return True
 
         def goHome(self):
