@@ -58,12 +58,13 @@ class Planning(object):
                                                 if not ro:
                                                     return False
 						go = self.graspObject(reachObject)
+                                                self.goHome()
                                                 if not go:
                                                     return False
                                                 po = self.placeObject(reachObject, newX, newY)
                                                 if not po:
                                                     return False
-                                                    
+
                         print "Now going for target"
                 for targetObject in self.bodyOfConcern:
                         if self.targetObject.tag == int(targetObject.GetName()[-2:]):
@@ -91,14 +92,15 @@ class Planning(object):
                                    [1., 0., 0., 0],
                                    [0., 1., 0., 0.05], # height from can
                                    [0., 0., 0., 1.]])
+                    Bw[2,:] = [0.0, 0.020]
+                    Bw[4,:] = [-np.pi, np.pi]
                 elif 'potted_meat_can' in targetObject.GetName():
                     Tw_e =  np.array([[ 0., 0., 1., 0],
                                   [1., 0., 0., 0.],
-                                  [0., 1., 0., 0.03],
+                                  [0., 1., 0., 0.04],
                                   [0., 0., 0., 1.]])
                     rot90 = np.array([[1.,0.,0.,0.],[0.,0.,-1.,0.],[0.,1.,0.,0.],[0.,0.,0.,1.]])
-		    Tw_e = np.dot(Tw_e, rot90)
-                    
+                    Tw_e = np.dot(Tw_e, rot90)
                     Bw[2,:] = [0.0, 0.015]
                     Bw[5,:] = [-np.pi, np.pi]
                 manip_idx = self.robot.GetActiveManipulatorIndex()
@@ -138,6 +140,8 @@ class Planning(object):
                 ch = raw_input("Planning Complete. Execute path? (y/n)")
                 if(ch == 'y' or ch == 'Y'):
                     self.robot.ExecutePath(plan)
+                else:
+                    return False
                 return True
 
         def graspObject(self, targetObject):
@@ -205,10 +209,14 @@ class Planning(object):
                 ch = raw_input("Planning Complete. Execute path? (y/n)")
                 if(ch == 'y' or ch == 'Y'):
                     self.robot.ExecutePath(plan)
+                else:
+                    return False
                 self.robot.ReleaseAllGrabbed()
                 self.robot.arm.hand.CloseHand(0.25)
                 rospy.sleep(3)
                 self.goHome()
+                self.robot.arm.hand.CloseHand(0.15)
+                rospy.sleep(3)
                 return True
 
         def goHome(self):
