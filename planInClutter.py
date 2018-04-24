@@ -29,6 +29,7 @@ def planInClutter(tableMap, targetObject):
                 tableMap.visualize()
                 print tag, newY / 100, -newX/ 100
                 plan.append((tag, newY / 100, -newX / 100))
+        plt.close('all')
         return plan
 	
 def updateObjectOnTable(tableMap, obj, newX, newY, newTheta):
