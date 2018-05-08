@@ -1,7 +1,7 @@
 # planInClutter
 A visualization to load objects on a table, make a cost map, and decide which objects should be moved out of the way
 
-## Classes
+## Classes in `makeGrid.py`
 
 ### objectOnTable
 
@@ -25,6 +25,11 @@ Example: To define an instance of this class
 This class is responsible for making the visualizations of the occupancy grid of the table.
 
 Members of the Class:
-    <p> `self.worldMap` - a dictionary with the </p>
-    
+    <p> `self.worldMap` - a dictionary with the key as the tag of the object and value as the object</p>
+Methods of the Class:
+    <p> `createWorldMap` - creates the worldMap </p>
+    <p> `createMatMap` - creates the matMap </p>
+    <p> `updateWorldMap` - updates the worldMap </p>
+    <p> `updateMatMap` - updates the matMap </p>
+    <p> `visualize` - visualizes the matMap </p>
 
