@@ -1,6 +1,14 @@
 # planInClutter
 A visualization to load objects on a table, make a cost map, and decide which objects should be moved out of the way
 
+## Test Script
+
+To run the script
+
+    ```
+    python planInClutter.py
+    ```
+
 ## Classes in `makeGrid.py`
 
 ### objectOnTable
@@ -26,6 +34,7 @@ This class is responsible for making the visualizations of the occupancy grid of
 
 Members of the Class:
     <p> `self.worldMap` - a dictionary with the key as the tag of the object and value as the object</p>
+
 Methods of the Class:
     <p> `createWorldMap` - creates the worldMap </p>
     <p> `createMatMap` - creates the matMap </p>
@@ -33,3 +42,4 @@ Methods of the Class:
     <p> `updateMatMap` - updates the matMap </p>
     <p> `visualize` - visualizes the matMap </p>
 
+## Helper functions in `planInClutter.py`
